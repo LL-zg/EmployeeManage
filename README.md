@@ -1,0 +1,2 @@
+# EmployeeManage
+采用Spring+Struts2+Hibernate开发的员工管理系统配以Layui前端框架

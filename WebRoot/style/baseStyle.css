@@ -1,0 +1,75 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    /*设置窗口高度为百分百高度*/
+    height: 100vh;
+    /* 伸缩盒子模型*/
+    display: flex;
+    /* 这两个属性让body中的子类居中*/
+    justify-content: center;
+    align-items: center;
+    background: #2c3e50 ;
+
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 520px;
+    height: 100%;
+    border-radius: 20px;
+    background: #34495e;
+    box-shadow: 15px 15px 10px rgba(33,45,58,0.3);
+    overflow: hidden;
+    position: relative;
+}
+.container form{
+    width: 300px;
+    height: 510px;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-around;
+    align-items: center;
+    z-index: 1px;
+} 
+
+.container form .btx{
+    width: 200px;
+    height: 40px;
+    outline: none;
+    border: none;
+    background: none;
+    border-bottom: 1px solid #fff;
+    color: #fff;
+}
+/*设置placeholder提示占位符*/
+.container form .btx::placeholder{
+    color: #fff;
+    font-size: 15px;
+}
+.container form .sub{
+    width: 100px;
+    height: 40px;
+    outline: none;
+    background: none;
+    border: 1px solid #fff;
+    border-radius: 20px;
+    letter-spacing: 5px;
+    color: #fff;
+    margin-left:10px;
+}
+
+h1{
+    z-index: 1;
+    color: #ecf0f1;
+    letter-spacing: 4px;
+    padding-left: 5px;
+    font-size: 25px;
+    font-weight:30px;
+    box-shadow: 5px 5px 5px rgba(33,45,58,0.9);
+
+}
+

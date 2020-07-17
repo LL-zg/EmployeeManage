@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd 
+	http://www.springframework.org/schema/context   
+    http://www.springframework.org/schema/context/spring-context-4.1.xsd 
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-2.0.xsd" default-autowire="byName">
+
+	
+	<!-- 先引入外部外部属性文件，才可以使用外部属性，别问为什么给需要这么麻烦，问就是不知道 -->
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+	<!-- 注入对象类型的属性 -->
+	<context:annotation-config/>
+	<!-- 要使用注解配置，必须开启注解扫描 
+		可以进入到包里面，扫描类，方法，属性上是否有的注解
+	-->
+	<context:component-scan base-package="ll.employee"/>
+	<!-- 配置AspectJ注解的支持 ；开启aop操作 -->
+	<aop:aspectj-autoproxy/>
+	
+	<!-- 配置数据源，即数据连接池 -->
+		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+			<property name="driverClassName" value="${jdbc.driverClass}"></property>
+			<property name="url" value="${jdbc.url}"></property>
+			<property name="username" value="${jdbc.username}"></property>
+			<property name="password" value="${jdbc.password}"></property> 			
+		</bean>
+		
+		<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+			<!-- 注入数据库 -->
+			<property name="dataSource">
+				<ref bean="dataSource"/>
+			</property>
+			
+			<!-- 配置hibernate的其他属性 -->
+			<property name="hibernateProperties">
+				<props>
+					<prop key="hibernate.dialect">
+						org.hibernate.dialect.MySQLDialect
+					</prop>
+					<!-- 在控制台输出SQL语句 -->
+					<prop key="hibernate.show_sql">true</prop>
+					<!-- 格式化控制台输出的语句 -->
+					<prop key="hibernate.format_sql">true</prop>
+					<!-- 自动更新数据库 -->
+					<prop key="hibernate.hbm2ddl.auto">update</prop>
+				</props>
+			</property>
+			
+			<property name="packagesToScan">
+				<list>
+					<value>ll.employee.pojo</value>
+				</list>
+			</property>
+			
+			<property name="mappingResources">
+				<list>
+					<value>ll/employee/pojo/Department.hbm.xml</value>
+					<value>ll/employee/pojo/Employee.hbm.xml</value>
+					<value>ll/employee/pojo/Salary.hbm.xml</value>
+				</list>
+			</property>
+		</bean>
+		
+
+			
+		<!-- 配置事务管理器，注入了数据源datasource，表示对哪个数据库进行事务操作，但是由于
+		
+			注入了sessionFactoty工厂，而工厂中有注入datasource数据源，所以不需要单独注入-->
+		<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+				<property name="sessionFactory" ref="sessionFactory"></property>
+		
+		</bean>
+		<!-- 开启事务注解 -->
+		<tx:annotation-driven transaction-manager="transactionManager" />
+</beans>

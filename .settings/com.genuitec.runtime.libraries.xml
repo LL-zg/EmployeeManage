@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project adv-config="true">
+  <add-on id="spring.persistence"/>
+  <add-on id="spring.web"/>
+  <container path="com.genuitec.runtime.library/com.genuitec.struts_2.1">
+    <disable name="antlr-2.7.2.jar" type="jar"/>
+    <custom-jar path="lib/Employee/WebRoot/WEB-INF/lib/ezmorph-1.0.6.jar"/>
+    <jar-attrs id="data/2.1/core/struts2-core-2.2.1.jar">
+      <attribute name="source_encoding" value="UTF-8"/>
+      <attribute name="source-path" value="D:\Program Files\struts-2.5.22-all\struts-2.5.22\src"/>
+      <attribute name="source-path-root"/>
+      <attribute name="javadoc_location" value="http://struts.apache.org/release/2.2.x/struts2-core/apidocs/"/>
+    </jar-attrs>
+  </container>
+</project>

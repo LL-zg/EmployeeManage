@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	
+	<constant name="struts.multipart.saveDir" value="/tmp"/>
+	
+	<!-- 开启注解扫描，扫描action包里面的注解 -->
+	
+	<constant name="struts.convention.action.packages" value="ll.employee.action"/> 
+	
+	
+	<package name="myPackage" extends="json-default">
+	
+    	<!--在对应的包中声明对action的拦截器 -->
+    	<interceptors>
+    	
+
+    		<interceptor name="loginInterceptor" class="ll.employee.interceptor.LoginInterceptor"></interceptor>
+    		<!-- Struts-json插件的JSON拦截器 -->
+    		<!-- 将自定义的权限拦截器和默认拦截器加入到新的自定义拦截栈中 -->
+    		
+    		
+    		<interceptor-stack name="myInterceptor">
+    		
+    			<interceptor-ref name="loginInterceptor">
+    				<param name="excludeMethods">login,adminLogin</param>
+    			</interceptor-ref>
+    			
+    			<interceptor-ref name="defaultStack"></interceptor-ref>
+
+    		</interceptor-stack>
+    		
+    	</interceptors>    	
+    	
+    	<!-- 指定新的自定义拦截器栈为默认的拦截器栈，这样只定义的拦截器栈就可以生效了 -->
+    	<!-- 这里的name属性对应上面的 interceptor-stack 的name属性-->
+    	<default-interceptor-ref name="myInterceptor"></default-interceptor-ref>
+    	
+    	
+    	<global-results>
+			<result name="login">/login.jsp</result>
+		</global-results>
+    	
+    	
+    	
+    	
+<!--     	<action name="employee_*" class="ll.employee.action.EmployeeAction",method="{1}">
+    	
+		使用自定义的拦截器    	
+			<interceptor-ref name="loginInterceptor">
+			配置action中的某些方法不需要进行拦截例如：login()
+			name属性值：excludeMethods, 然后写不需要拦截的方法的名称
+			
+				<param name="excludeMethods">login,adminLogin</param>
+			
+			</interceptor-ref>
+    	配置了自定义拦截器后，默认的拦截器不会自动启动，所以要手动在开启一次
+    		<interceptor-ref name="defaultStack"></interceptor-ref>
+    		
+    		<result name="login">/index.jsp</result>
+    	</action> -->
+    </package>
+    
+    
+</struts>    
+    
